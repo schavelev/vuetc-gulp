@@ -1,4 +1,5 @@
 # vuetc-gulp
+[![Build Status](https://travis-ci.org/schavelev/vuetc-gulp.svg?branch=master)](https://travis-ci.org/schavelev/vuetc-gulp)
 
 VueTC - Vue templates compiler. Gulp-plugin for compiling and bundling VueJS templates into a single associated array of render functions.
 
