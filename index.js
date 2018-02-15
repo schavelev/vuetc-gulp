@@ -13,19 +13,15 @@ module.exports = function (file, opt) {
     }
     opt = opt || {};
 
-    // to preserve existing |undefined| behaviour and to introduce |newLine: ""| for binaries
-    if (typeof opt.newLine !== 'string') {
-        opt.newLine = '\n';
-    }
+    var indent = typeof(opt.indent) === 'number' ? ' '.repeat(opt.indent) : ' '.repeat(2);
+    if(typeof(opt.indent) === 'string') indent = ' '.repeat(opt.indent.length);
 
-    var newLine = opt.newLine;
-    var indent = '  ';
+    var newLine = typeof(opt.newLine) === 'string' ? opt.newLine : '\n';
 
     var latestFile;
     var latestMod;
     var fileName;
     var renderedParts = [];
-
 
     if (typeof file === 'string') {
         fileName = file;
@@ -39,7 +35,13 @@ module.exports = function (file, opt) {
         function idAttr(el, idx, arr) {
             return el.name === "id";
         } 
+
         var node = compiler.parseComponent(content.toString()).template;
+        // ignore empty node content
+        if (!node) {
+            return;
+        }
+
         var res = compiler.compile(node.content);
 
         if (renderedParts.length !== 0) {
@@ -47,10 +49,10 @@ module.exports = function (file, opt) {
         }
 
         var textObj = indent + "'" + node.attrs['id'] + "': {" + newLine
-            + indent + indent + "'render': function() {" + newLine
-            + indent + indent + indent + res.render + newLine
-            + indent + indent + "}," + newLine
-            + indent + indent + "'staticRenderFns': " + (res.staticRenderFns.toString() || '[]') + newLine
+            + indent.repeat(2) + "'render': function() {" + newLine
+            + indent.repeat(3) + res.render + newLine
+            + indent.repeat(2) + "}," + newLine
+            + indent.repeat(2) + "'staticRenderFns': " + (res.staticRenderFns.toString() || '[]') + newLine
             + indent + "}";
 
         renderedParts.push(new Buffer(textObj));
@@ -78,7 +80,6 @@ module.exports = function (file, opt) {
         }
 
         // add file to concat instance
-        //concat.add(file.relative, file.contents);
         addRenderedPart(file.contents);
 
         cb();
