@@ -1,0 +1,32 @@
+{
+  "name": "vuetc-gulp",
+  "version": "0.3.0",
+  "description": "Vue template compiler for Gulp. Gulp-plugin for compiling and bundling VueJS templates.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/schavelev/vuetc-gulp.git"
+  },
+  "keywords": [
+    "vue",
+    "vuejs",
+    "template-compiler"
+  ],
+  "author": "Eduard Schavelev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/schavelev/vuetc-gulp/issues"
+  },
+  "homepage": "https://github.com/schavelev/vuetc-gulp#readme",
+  "dependencies": {
+    "through2": "^2.0.3",
+    "vinyl": "^2.1.0",
+    "vue-template-compiler": "^2.5.13"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
+}
