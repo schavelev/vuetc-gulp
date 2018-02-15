@@ -9,7 +9,7 @@ Install package with NPM and add it to your development dependencies:
 `npm install --save-dev vuetc-gulp`
 
 ## Usage
-
+### Bandle generation
 ```js
 var concat = require('vuetc-gulp');
 
@@ -19,7 +19,6 @@ gulp.task('vuetc', function() {
     .pipe(gulp.dest('./wwwroot/dist/'));
 });
 ```
-
 This will collect the template files and passes them through the vue-template-compiler.
 The compiled render functions will be saved to the js-file as an associated array.
 ```js
@@ -38,7 +37,7 @@ var RenderedTemplate = {
     }
 };
 ```
-## Result Usage
+### Templates provider
 Create a helper in your project.
 ```ts
 // TemplateProvider.ts
@@ -61,7 +60,8 @@ export default class TemplateProvider {
     }
 }
 ```
-Vue component can use compiled render functions from this gulp-plugin result.
+### Get compiled render function
+Vue component can use compiled render functions from vuetc-gulp result.
 ```ts
 // DemoGrid.ts
 import Vue from 'vue';
