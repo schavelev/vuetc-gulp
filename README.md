@@ -79,6 +79,6 @@ export default Vue.extend({
 
 ## License
 
-[MIT](http://opensource.org/licenses/MIT)
+[MIT](LICENSE)
 
 Copyright (c) 2018, Eduard Schavelev
