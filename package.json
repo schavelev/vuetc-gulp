@@ -1,6 +1,6 @@
 {
   "name": "vuetc-gulp",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Vue template compiler for Gulp. Gulp-plugin for compiling and bundling VueJS templates.",
   "main": "index.js",
   "scripts": {
