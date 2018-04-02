@@ -155,6 +155,24 @@ describe('vuetc-gulp', function() {
           .pipe(assert.first(function (d) { d.contents.toString().should.match(/{'template1111'/); }))
           .pipe(assert.end(done));
       })
+
+        it('should support minify', function (done) {
+        gulp.src([fixtures('*'), thirdPath])
+          .pipe(vuetc('test.js', { minify: true }))
+          .pipe(assert.length(2))
+          .pipe(assert.first(function (newFile) {
+            var newFilePath = path.resolve(newFile.path);
+            var expectedFilePath = path.resolve(path.join(thirdBase, 'test.js'));
+            newFilePath.should.equal(expectedFilePath);
+          }))
+          .pipe(assert.last(function (newFile) {
+            var newFilePath = path.resolve(newFile.path);
+            var expectedFilePath = path.resolve(path.join(thirdBase, 'test.min.js'));
+            newFilePath.should.equal(expectedFilePath);
+          }))
+          .pipe(assert.end(done));
+      });
+
     });
 
     describe('with object as argument', function () {

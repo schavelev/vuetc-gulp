@@ -14,14 +14,15 @@ module.exports = function (file, opt) {
     opt = opt || {};
 
     var indent = typeof(opt.indent) === 'number' ? ' '.repeat(opt.indent) : ' '.repeat(2);
-    if(typeof(opt.indent) === 'string') indent = ' '.repeat(opt.indent.length);
+    if (typeof (opt.indent) === 'string') indent = ' '.repeat(opt.indent.length);
+    var pushMinify = opt.minify;
 
     var newLine = typeof(opt.newLine) === 'string' ? opt.newLine : '\n';
 
     var latestFile;
     var latestMod;
     var fileName;
-    var renderedParts = [];
+    var renderedTemplates = [];
 
     if (typeof file === 'string') {
         fileName = file;
@@ -44,19 +45,57 @@ module.exports = function (file, opt) {
 
         var res = compiler.compile(node.content);
 
-        if (renderedParts.length !== 0) {
-            renderedParts.push(new Buffer(',' + newLine));
+        renderedTemplates.push({
+            node_id: node.attrs['id'],
+            render: res.render,
+            staticRenderFns: res.staticRenderFns.toString()
+        });        
+    }
+
+    function getJoinedFile(isCompact) {
+        var nl = isCompact ? '' : newLine;
+        var tab = isCompact ? '' : indent;
+
+        var joinedFile;
+        var bufferParts = [];
+
+        // if file opt was a file path
+        // clone everything from the latest file
+        if (typeof file === 'string') {
+            joinedFile = latestFile.clone({ contents: false });
+            joinedFile.path = path.join(latestFile.base, file);
+        } else {
+            joinedFile = new File(file);
         }
 
-        var textObj = indent + "'" + node.attrs['id'] + "': {" + newLine
-            + indent.repeat(2) + "'render': function() {" + newLine
-            + indent.repeat(3) + res.render + newLine
-            + indent.repeat(2) + "}," + newLine
-            + indent.repeat(2) + "'staticRenderFns': " + (res.staticRenderFns.toString() || '[]') + newLine
-            + indent + "}";
+        if (isCompact) {
+            var pathObject = path.parse(joinedFile.path);
+            joinedFile.path = path.format({
+                dir: pathObject.dir,
+                name: pathObject.name + '.min',
+                ext: pathObject.ext
+            });
+        }
 
-        renderedParts.push(new Buffer(textObj));
-    }
+        bufferParts.push(new Buffer('var RenderedTemplate = {' + nl));
+        renderedTemplates.forEach(function (item, i) {
+            var textObj = (i > 0) ? (',' + nl) : '';
+
+            textObj += tab + "'" + item.node_id + "': {" + nl
+                + tab.repeat(2) + "'render': function() {" + nl
+                + tab.repeat(3) + item.render + nl
+                + tab.repeat(2) + "}," + nl
+                + tab.repeat(2) + "'staticRenderFns': " + (item.staticRenderFns || '[]') + nl
+                + tab + "}";
+
+            bufferParts.push(new Buffer(textObj));            
+        })
+        bufferParts.push(new Buffer(nl + '};'));
+
+        joinedFile.contents = Buffer.concat(bufferParts);
+
+        return joinedFile;
+    } 
 
     function bufferContents(file, enc, cb) {
         // ignore empty files
@@ -87,28 +126,15 @@ module.exports = function (file, opt) {
 
     function endStream(cb) {
         // no files passed in, no file goes out
-        if (!latestFile || !renderedParts) {
+        if (!latestFile || !renderedTemplates) {
             cb();
             return;
         }
 
-        var joinedFile;
+        this.push(getJoinedFile(false));
+        if (pushMinify)
+            this.push(getJoinedFile(true));
 
-        // if file opt was a file path
-        // clone everything from the latest file
-        if (typeof file === 'string') {
-            joinedFile = latestFile.clone({ contents: false });
-            joinedFile.path = path.join(latestFile.base, file);
-        } else {
-            joinedFile = new File(file);
-        }
-
-        renderedParts.unshift(new Buffer('var RenderedTemplate = {' + newLine));
-        renderedParts.push(new Buffer(newLine + '};'));
-
-        joinedFile.contents = Buffer.concat(renderedParts);
-
-        this.push(joinedFile);
         cb();
     }
 
