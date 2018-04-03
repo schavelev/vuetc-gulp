@@ -156,7 +156,7 @@ describe('vuetc-gulp', function() {
           .pipe(assert.end(done));
       })
 
-        it('should support minify', function (done) {
+      it('should support minify', function (done) {
         gulp.src([fixtures('*'), thirdPath])
           .pipe(vuetc('test.js', { minify: true }))
           .pipe(assert.length(2))

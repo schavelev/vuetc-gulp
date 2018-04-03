@@ -1,0 +1,8 @@
+.vs
+
+[Bb]in/
+[Oo]bj/
+dist/
+
+node_modules/
+package-lock.json

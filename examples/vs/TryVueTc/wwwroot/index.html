@@ -1,0 +1,33 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Try Vue + TypeScript</title>
+
+    <link rel="stylesheet" href="dist/main.css" type="text/css" />
+</head>
+<body>
+    <div id="app-root">loading..</div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.20.19/system.js"></script>
+
+    <!--Load vue, vue-class-component, app-templates, app-bundle.js -->
+    <script>
+        var RenderedTemplate;
+
+        System.config({
+            map: {
+                "vue": "https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.runtime.min.js",
+                "vue-class-component": "https://cdn.jsdelivr.net/npm/vue-class-component@6.2.0/dist/vue-class-component.min.js"
+            }
+        });
+
+        $.getScript("dist/app-templates.js").done(function () {
+            SystemJS.import('dist/app-bandle.js').then(function (m) {
+                SystemJS.import('index');
+            });
+        });
+    </script>
+</body>
+</html>

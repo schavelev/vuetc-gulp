@@ -1,0 +1,19 @@
+{
+  "name": "vuetc-gulp.examples",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "gulp",
+    "dev": "node server.js"
+  },
+  "devDependencies": {
+    "express": "^4.16.3",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-typescript": "^4.0.2",
+    "typescript": "^2.8.1",
+    "vue": "^2.5.16",
+    "vue-class-component": "^6.2.0",
+    "vuetc-gulp": "^0.3.4"
+  }
+}
