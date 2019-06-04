@@ -11,7 +11,7 @@ module.exports = function () {
       cwd: '/home/vuetc/',
       base: '/home/vuetc/test',
       path: '/home/vuetc/test/file' + (i++).toString() + '.js',
-      contents: new Buffer(contents),
+      contents: new Buffer.from(contents),
       stat: {mode: 0666}
     });
   }

@@ -77,7 +77,7 @@ module.exports = function (file, opt) {
             });
         }
 
-        bufferParts.push(new Buffer('var RenderedTemplate = {' + nl));
+        bufferParts.push(Buffer.from('var RenderedTemplate = {' + nl));
         renderedTemplates.forEach(function (item, i) {
             var textObj = (i > 0) ? (',' + nl) : '';
 
@@ -88,9 +88,9 @@ module.exports = function (file, opt) {
                 + tab.repeat(2) + "'staticRenderFns': " + (item.staticRenderFns || '[]') + nl
                 + tab + "}";
 
-            bufferParts.push(new Buffer(textObj));            
+            bufferParts.push(Buffer.from(textObj));            
         })
-        bufferParts.push(new Buffer(nl + '};'));
+        bufferParts.push(Buffer.from(nl + '};'));
 
         joinedFile.contents = Buffer.concat(bufferParts);
 
