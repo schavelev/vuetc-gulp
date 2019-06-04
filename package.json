@@ -1,6 +1,6 @@
 {
   "name": "vuetc-gulp",
-  "version": "0.3.5",
+  "version": "0.3.7",
   "description": "Vue template compiler for Gulp. Gulp-plugin for compiling and bundling VueJS templates.",
   "main": "index.js",
   "scripts": {
@@ -22,14 +22,14 @@
   },
   "homepage": "https://github.com/schavelev/vuetc-gulp#readme",
   "dependencies": {
-    "through2": "^2.0.3",
-    "vinyl": "^2.1.0",
-    "vue-template-compiler": "^2.5.16"
+    "through2": "^3.0.1",
+    "vinyl": "^2.2.0",
+    "vue-template-compiler": "^2.6.10"
   },
   "devDependencies": {
-    "gulp": "^3.9.1",
-    "mocha": "^5.0.5",
-    "should": "^13.2.1",
+    "gulp": "^4.0.2",
+    "mocha": "^6.1.4",
+    "should": "^13.2.3",
     "stream-array": "^1.1.2",
     "stream-assert": "^2.0.3"
   }
