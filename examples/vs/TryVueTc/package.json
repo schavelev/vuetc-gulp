@@ -4,13 +4,14 @@
   "private": true,
   "scripts": {
     "build": "dotnet build & gulp",
+    "gulp": "gulp",
     "dev": "dotnet run"
   },
   "devDependencies": {
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
-    "vue": "^2.5.16",
-    "vue-class-component": "^6.2.0",
-    "vuetc-gulp": "^0.3.4"
+    "vue": "^2.6.10",
+    "vue-class-component": "^7.1.0",
+    "vuetc-gulp": "^0.3.7"
   }
 }

@@ -14,25 +14,26 @@ var conf = {
     newLine: '\r\n'
 };
 
-gulp.task('compile:ts', function () {
+function compileTs() {
     return tsProject.src()
         .pipe(tsProject())
         .js.pipe(gulp.dest('.'));
-});
+}
 
-gulp.task('concat:css', function () {
+function concatCss() {
     return gulp.src(conf.srcMainCss)
         .pipe(concat(conf.outMainCss, { newLine: conf.newLine }))
         .pipe(gulp.dest(conf.outDist));
-});
+}
 
-gulp.task('compile:templates', function () {
+function compileTemplates() {
     return gulp.src(conf.srcTemplates)
         .pipe(vuetc(conf.outRenderedTemplates, { minify: false }))
         .pipe(gulp.dest(conf.outDist));
-});
+}
 
+exports["compile:ts"] = compileTs;
+exports["concat:css"] = concatCss;
+exports["compile:templates"] = compileTemplates;
 
-gulp.task('default', function () {
-    gulp.start('compile:ts', 'compile:templates', 'concat:css');
-});
+exports.default = gulp.parallel(compileTs, concatCss, compileTemplates);

@@ -11,18 +11,20 @@ var conf = {
     newLine: '\r\n'
 };
 
-gulp.task('concat:css', function () {
+
+function concatCss() {
     return gulp.src(conf.srcMainCss)
         .pipe(concat(conf.outMainCss, { newLine: conf.newLine }))
         .pipe(gulp.dest(conf.outDist));
-});
+}
 
-gulp.task('compile:templates', function () {
+function compileTemplates() {
     return gulp.src(conf.srcTemplates)
         .pipe(vuetc(conf.outRenderedTemplates, { minify: false }))
         .pipe(gulp.dest(conf.outDist));
-});
+}
 
-gulp.task('default', function () {
-    gulp.start('concat:css', 'compile:templates');
-});
+exports["concat:css"] = concatCss;
+exports["compile:templates"] = compileTemplates;
+
+exports.default = gulp.parallel(concatCss, compileTemplates);
