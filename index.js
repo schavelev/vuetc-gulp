@@ -44,11 +44,14 @@ module.exports = function (file, opt) {
         }
 
         var res = compiler.compile(node.content);
+        var staticRenderFns = res.staticRenderFns.map(function(fn) {
+            return 'function(){' + fn + '}';
+        });
 
         renderedTemplates.push({
             node_id: node.attrs['id'],
             render: res.render,
-            staticRenderFns: res.staticRenderFns.toString()
+            staticRenderFns: '[' + staticRenderFns.join(',') + ']'
         });        
     }
 

@@ -199,5 +199,26 @@ describe('vuetc-gulp', function() {
       });
     });
 
+    describe('with staticRenderFns', function () {
+      it('should generate empty array', function (done) {
+        test('<template id="template1111"><app /></template>')
+          .pipe(vuetc('test.js'))
+          .pipe(assert.length(1))
+          .pipe(assert.first(function (d) {
+              d.contents.toString().should.match(/\'staticRenderFns\':\s\[\]/);
+          }))
+          .pipe(assert.end(done));
+      });
+
+      it('should generate array of functions', function (done) {
+        test('<template id="template1111"><main><div>{{"q"}}<div><p>qqq</p></div></div><div><p>www</p></div></main></template>')
+          .pipe(vuetc('test.js'))
+          .pipe(assert.length(1))
+          .pipe(assert.first(function (d) {
+              d.contents.toString().should.match(/\'staticRenderFns\':\s\[function/);
+          }))
+          .pipe(assert.end(done));
+      });
+    });
   });
 });
